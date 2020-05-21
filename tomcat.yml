@@ -1,0 +1,29 @@
+---
+- name: Installing Tomcat 
+  hosts: servera
+  tasks:
+  - name: installing java
+    yum:
+      name: java-1.8.0-openjdk-devel
+      state: present 
+  - name: creating folder
+    file:
+      path: /opt/tomcat
+      state: directory
+      mode: 0755
+  - name: downloading tomcat
+    get_url:
+      url: http://apachemirror.wuchna.com/tomcat/tomcat-9/v9.0.35/bin/apache-tomcat-9.0.35.tar.gz 
+      dest: /opt/tomcat
+  - name: extracting the tomcat 
+    unarchive: 
+      src: /opt/tomcat/apache-tomcat-9.0.35.tar.gz
+      dest: /opt/tomcat
+  - name: adding environment variables
+    shell:  "{{item}}"
+    loop:
+       - echo "export CATALINA_HOME="/opt/tomcat/apache-tomcat-9.0.35"" >> ~/.bashrc
+       - source ~/.bashrc
+  - name: starting service
+    shell: /opt/tomcat/apache-tomcat-9.0.35/bin/startup.sh
+  
