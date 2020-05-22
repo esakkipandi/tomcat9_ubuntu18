@@ -1,0 +1,39 @@
+---
+- name: kernel update
+  hosts: 192.168.1.119
+  remote_user: esakki
+  become: true
+  become_method: sudo
+  become_user: root
+  tasks:
+  - name: 
+    apt:
+      update_cache: yes
+      upgrade: dist
+  - name: installing app
+    apt: 
+     name: "{{item}}"
+     state: present
+    loop:
+      - linux-generic-hwe-18.04 
+      - xserver-xorg-hwe-18.04
+  - name: Reboot box if kernel/libs updated
+    shell: sleep 10 && /sbin/shutdown -r now 'rebooting'
+    args:
+      removes: /var/run/reboot-required
+    async: 300
+    poll: 0
+    ignore_errors: true
+  - name: Wait for system to become reachable again
+    wait_for_connection:
+        delay: 60
+        timeout: 300
+
+  - name: Verify new update (optional)
+    command: uname -mrs
+    register: uname_result
+  - name: Display new kernel version
+    debug:
+       var: uname_result.stdout_lines
+
+  
