@@ -1,0 +1,6 @@
+[server]
+localhosts
+servera
+serverb
+[tomcat_nodes]
+192.168.1.119

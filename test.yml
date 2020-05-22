@@ -1,0 +1,7 @@
+---
+- name: test
+  hosts: servera
+  tasks:
+  - name: task
+    debug:
+      msg: "{{name}} and age is {{age}}"
