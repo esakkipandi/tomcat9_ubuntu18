@@ -1,0 +1,21 @@
+---
+- name: copy module
+  hosts: 192.168.1.119
+  remote_user: esakki
+  become: true
+  become_method: sudo
+  tasks: 
+  - name: task1
+    copy:
+      src: /tmp/centos
+      dest: $HOME/centos
+  - name: remote host to remote host
+    copy:
+      src: $HOME/centos
+      dest: $HOME/centos_copy
+      remote_src: true
+  - name: adding content
+    copy:
+      dest: $HOME/esakki
+      content: "Esakki Pandian"
+       

@@ -1,6 +1,4 @@
 [server]
-localhosts
-servera
-serverb
+localhost
 [tomcat_nodes]
-192.168.1.119
+192.168.1.119 ansible_user=esakki

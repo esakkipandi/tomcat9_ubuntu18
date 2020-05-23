@@ -1,0 +1,15 @@
+---
+- name: "YUM package test"
+  hosts: all
+  tasks:
+  - name: "installing epel-release"
+    yum:
+     name: epel-release
+     state: present
+     update_cache: true
+    become: true
+    when: ansible_os_family == "RedHat"
+  - name: "I am ubuntu"
+    debug:
+      msg: "i am ubuntu {{ansible_hostname}}"
+    when: ansible_os_family == "Debian"
